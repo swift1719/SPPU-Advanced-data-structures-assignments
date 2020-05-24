@@ -271,11 +271,11 @@ int main()
             cout << endl;
             break;
         case 2:
-            cout << "\t---Binary Tree Traversals (Recursive)---" << endl;
+            cout << "\t---Binary Tree Traversals via DFS (Recursive)---" << endl;
             bt.inorder();
             bt.preorder();
             bt.postorder();
-            cout << "\t---Binary Tree Traversals (Non-Recursive)---" << endl;
+            cout << "\t---Binary Tree Traversals via DFS (Non-Recursive)---" << endl;
             bt.preorder_nonRecursive();
             bt.inorder_nonRecursive();
             break;
@@ -465,3 +465,145 @@ int main()
     bt.postorder_nonRecursive();
     return 0;
 }*/
+
+//for tree traversal via BFS
+/*
+#include <iostream>
+using namespace std;
+
+static int k = 0;
+struct node
+{
+    int data;
+    node *left, *right;
+};
+
+class que
+{
+    node *data[30];
+    int rear, front;
+
+public:
+    que()
+    {
+        rear = front = -1;
+    }
+    void init()
+    {
+        rear = front = -1;
+    }
+    int empty()
+    {
+        if (rear == -1)
+        {
+            return 1;
+        }
+        return 0;
+    }
+    void enque(node *t)
+    {
+        if (empty())
+        {
+            rear = front = 0;
+        }
+        else
+        {
+            rear++;
+        }
+        data[rear] = t;
+    }
+    node *deque()
+    {
+        node *t = data[front];
+        if (rear == front)
+        {
+            rear = front = -1;
+        }
+        else
+        {
+            front++;
+        }
+        return t;
+    }
+};
+
+class btree
+{
+    node *root;
+
+public:
+    btree()
+    {
+        root = NULL;
+    }
+    node *create()
+    {
+        int x;
+        cout << "Enter value(-1 for no data) : ";
+        cin >> x;
+        k++;
+        if (x == -1)
+        {
+            return NULL;
+        }
+        node *p = new node;
+        p->data = x;
+        if (k == 1)
+        {
+            root = p;
+        }
+        cout << "Left child of '" << x << "'";
+        p->left = create();
+        cout << "Right child of '" << x << "'";
+        p->right = create();
+    }
+    void dfs(node *r)
+    {
+        que q1, q2;
+        node *t1, *t2;
+        if (r == NULL)
+        {
+            return;
+        }
+        q1.enque(r);
+        cout << r->data << endl;
+        cout << "\t";
+        while (!q1.empty())
+        {
+            q2.init();
+            while (!q1.empty())
+            {
+                t1 = q1.deque();
+                if (t1->left != NULL)
+                {
+                    q2.enque(t1->left);
+                    cout << t1->left->data << "\t";
+                }
+                if (t1->right != NULL)
+                {
+                    q2.enque(t1->right);
+                    cout << t1->right->data << "\t";
+                }
+            }
+            cout << endl;
+            cout << " ";
+            q1 = q2;
+        }
+    }
+    void binaryTreeDFS()
+    {
+        cout << "***Binary Tree Traversal (Breadth FIRST)***" << endl;
+        cout << "\t";
+        dfs(root);
+        cout << endl;
+    }
+};
+
+int main()
+{
+    btree t;
+    t.create();
+    t.binaryTreeDFS();
+    return 0;
+}
+*/
